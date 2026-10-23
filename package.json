@@ -1,7 +1,7 @@
 {
   "name": "christportal",
   "version": "1.0.0",
-  "description": "ChristPortal - A Sacred Sanctuary & Living Word Desktop Portal with Local Ollama AI",
+  "description": "ChristPortal - A Sacred Sanctuary & Living Word Desktop Portal powered by local Ollama models",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
