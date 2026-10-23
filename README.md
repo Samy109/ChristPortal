@@ -62,7 +62,19 @@ Generative audio running 100% offline without external audio files:
 
 ---
 
-## 🚀 Running the App
+## 📥 Download (Windows)
+
+1. Install [Ollama](https://ollama.com/download) and pull a model that fits your computer, for example:
+   - 8 GB graphics card or less: `ollama pull llama3.1:8b`
+   - 24 GB graphics card: a 30B-class model such as `gemma4:31b`
+2. Download from the [latest release](../../releases/latest):
+   - **ChristPortal-Setup** installs the app with a desktop shortcut.
+   - **ChristPortal-Portable** runs without installing.
+3. Open ChristPortal. It finds your Ollama models automatically.
+
+Windows may show a "Windows protected your PC" warning because the app isn't code-signed. Click **More info → Run anyway**.
+
+## 🚀 Running from Source
 
 Double-click `Start-ChristPortal.bat` or run:
 

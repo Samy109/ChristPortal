@@ -4,17 +4,46 @@
   "description": "ChristPortal - A Sacred Sanctuary & Living Word Desktop Portal with Local Ollama AI",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "dist": "electron-builder --win"
   },
   "keywords": [],
-  "author": "",
+  "author": "Adam",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
-    "electron": "^45.0.0"
+    "electron": "^45.0.0",
+    "electron-builder": "^26.0.12"
   },
   "dependencies": {
     "marked": "^18.1.1",
     "msedge-tts": "^2.1.0"
+  },
+  "build": {
+    "appId": "com.christportal.sanctuary",
+    "productName": "ChristPortal",
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer/**/*",
+      "assets/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "assets/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "artifactName": "ChristPortal-Setup-${version}.${ext}"
+    },
+    "portable": {
+      "artifactName": "ChristPortal-Portable-${version}.${ext}"
+    }
   }
 }

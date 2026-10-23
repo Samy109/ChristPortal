@@ -1803,6 +1803,13 @@ class ChristPortalApp {
         });
       }
 
+      // The saved/default model isn't installed (e.g. a smaller machine): use the first one that is
+      if (!this.models.includes(this.activeModel)) {
+        this.activeModel = this.models[0];
+        if (select) select.value = this.activeModel;
+        this.savePersistedData();
+      }
+
       this.updateModelStatusDisplay();
     } else {
       if (dot) dot.classList.add('offline');
