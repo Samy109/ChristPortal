@@ -139,22 +139,22 @@
         <!-- Sub-header: Persona selection & session actions -->
         <div class="sanctuary-subbar">
           <div class="persona-selector-wrap">
-            <label class="subbar-label">Divine Presence:</label>
+            <label class="subbar-label">Focus:</label>
             <div class="persona-chips" id="persona-chips">
-              <button class="persona-chip active" data-persona="shepherd">
-                <span class="chip-cross">✝</span> The Living Word (Christ)
+              <button class="persona-chip active" data-persona="comfort">
+                <span class="chip-dove">🕊</span> Comfort
               </button>
-              <button class="persona-chip" data-persona="comforter">
-                <span class="chip-dove">🕊</span> The Comforter (Holy Spirit)
+              <button class="persona-chip" data-persona="prayer">
+                <span class="chip-cross">🙏</span> Prayer
               </button>
-              <button class="persona-chip" data-persona="scholar">
-                <span class="chip-scroll">📜</span> Biblical Scribe & Exegesis
+              <button class="persona-chip" data-persona="study">
+                <span class="chip-scroll">📜</span> Study the Word
               </button>
-              <button class="persona-chip" data-persona="pastor">
-                <span class="chip-shepherd">🌱</span> Sanctuary Pastor
+              <button class="persona-chip" data-persona="life">
+                <span class="chip-shepherd">🌱</span> Daily Walk
               </button>
-              <button class="persona-chip" data-persona="mystic">
-                <span class="chip-flame">🕯</span> Desert Father (Stillness)
+              <button class="persona-chip" data-persona="stillness">
+                <span class="chip-flame">🕯</span> Stillness
               </button>
             </div>
           </div>
@@ -196,9 +196,9 @@
                 <span class="prompt-text">"Lord, calm the storm of anxiety in my heart..."</span>
               </button>
 
-              <button class="prompt-card" data-prompt="Teach me how to pray as You taught the disciples, and lead me closer to the Father's heart.">
+              <button class="prompt-card" data-prompt="Teach me how to pray the way Jesus taught His disciples, and lead me closer to the Father's heart.">
                 <span class="prompt-icon">🙏</span>
-                <span class="prompt-text">"Teach me how to pray as You taught..."</span>
+                <span class="prompt-text">"Teach me to pray the way Jesus taught..."</span>
               </button>
 
               <button class="prompt-card" data-prompt="I am facing a heavy trial and feel weary. What does Scripture say about trusting God when all seems lost?">
@@ -206,9 +206,9 @@
                 <span class="prompt-text">"I feel weary in this trial. Renew my faith..."</span>
               </button>
 
-              <button class="prompt-card" data-prompt="Speak a word of holy forgiveness, repentance, and cleansing over me. Help me let go of guilt.">
+              <button class="prompt-card" data-prompt="Show me what Scripture says about God's forgiveness and cleansing. Help me let go of guilt.">
                 <span class="prompt-icon">✝</span>
-                <span class="prompt-text">"Speak a word of forgiveness and cleansing..."</span>
+                <span class="prompt-text">"Show me God's forgiveness in His Word..."</span>
               </button>
 
               <button class="prompt-card" data-prompt="Pray a blessing of divine protection, health, and peace over my family and loved ones today.">
@@ -229,7 +229,7 @@
           <!-- Streaming Indicator / Cursor -->
           <div class="streaming-glow-indicator" id="streaming-glow-indicator" style="display: none;">
             <div class="divine-spinner"></div>
-            <span class="streaming-label">The Word is speaking...</span>
+            <span class="streaming-label">Searching the Scriptures...</span>
             <button class="btn-stop-streaming" id="btn-stop-streaming">Halt Generation</button>
           </div>
         </div>
@@ -493,7 +493,7 @@
               <div class="form-group">
                 <label class="toggle-pill" style="margin-top: 6px; cursor: pointer;">
                   <input type="checkbox" id="setting-auto-read-responses">
-                  <span>Automatically read divine responses aloud</span>
+                  <span>Automatically read responses aloud</span>
                 </label>
               </div>
 
@@ -518,8 +518,8 @@
             <div class="settings-card full-width">
               <div class="card-header-flex">
                 <div>
-                  <h3 class="card-title">Persona System Prompt Theology</h3>
-                  <p class="card-desc">Fine-tune the theological prompts guiding the local model's persona.</p>
+                  <h3 class="card-title">Companion Guidance</h3>
+                  <p class="card-desc">Fine-tune the guidance for the current focus.</p>
                 </div>
                 <button class="btn-sacred-secondary" id="btn-reset-sys-prompt">Reset to Reverent Default</button>
               </div>

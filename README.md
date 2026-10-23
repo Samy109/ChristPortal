@@ -9,15 +9,16 @@
 ## 🕊 Features Overview
 
 ### 1. The Sanctuary (Communion & Dialogue)
-- **Living Word Personas**:
-  - **The Living Word (Jesus Christ)**: Tender grace, divine authority, compassion, and biblical truth speaking peace over your soul.
-  - **The Comforter (Holy Spirit)**: Interceding when words fail, bringing scriptures to memory, and guiding into prayer.
-  - **Biblical Scribe & Exegesis**: Greek (*Agapé, Logos, Kenosis, Pneuma*) and Hebrew (*Shalom, Hesed, Ruach*) root exegesis, historical context, and scripture cross-references.
-  - **Sanctuary Pastor**: Compassionate pastoral counsel for daily life, family, trials, and discipleship.
-  - **Desert Father (Stillness)**: Contemplative silence, breath prayers, and the Jesus Prayer (*"Lord Jesus Christ, Son of God, have mercy on me"*).
-- **Red Letter Mode**: Automatically highlights the words of Christ in sacred crimson.
+- **Scripture Companion**: Someone to talk to who always answers from the Word of God. *Sola scriptura*: Scripture alone is its authority. It speaks about God, never as Him, quotes real verses with their references, and never claims new revelation.
+- **Focus Modes**:
+  - **Comfort**: God's promises of presence and care for the anxious, grieving, and weary.
+  - **Prayer**: Learning to pray with Scripture itself: the Psalms, the Lord's Prayer, the prayers of Paul.
+  - **Study the Word**: Passages in context, Scripture interpreting Scripture, and Hebrew (*Shalom, Hesed, Ruach*) and Greek (*Agapé, Logos, Pneuma*) word studies.
+  - **Daily Walk**: What Scripture says about family, work, relationships, temptation, and decisions.
+  - **Stillness**: Slow meditation on a single verse, with breath prayers drawn from Scripture.
+- **Red Letter Mode**: Automatically highlights quoted words of Christ from the Gospels in sacred crimson.
 - **Interactive Scripture Chips**: Whenever Scripture is referenced in dialogue (e.g., `John 14:27`, `Psalm 23`), it becomes an interactive badge. Click it to inspect the full verse, historical background, and exegesis drawer.
-- **Spoken Word (Natural Calming Voice)**: Hear the divine response read aloud in a warm, wise, calming elder cadence (featuring *Elder Shepherd*, *Reverent Patriarch*, *Contemplative Scholar*, and *Gentle Pastor* voices).
+- **Spoken Word (Natural Calming Voice)**: Hear each response read aloud in a warm, wise, calming elder cadence (featuring *Elder Shepherd*, *Reverent Patriarch*, *Contemplative Scholar*, and *Gentle Pastor* voices).
 - **Auto-Read Responses Option**: Automatically read counsel aloud upon completion, with one-click listen/stop controls on every message bubble.
 - **Hands-Free Voice Prayer (Speech-To-Text)**: Speak your prayer aloud from the heart.
 
@@ -58,7 +59,7 @@ Generative audio running 100% offline without external audio files:
   - `gemma4:31b`
   - `dhiltgen/qwen3.8:latest`
   - Any model pulled via `ollama pull`
-- **Dynamic Configuration**: Change theological temperature (0.1 strict exegesis to 1.0 poetic contemplation), system prompts, and context limits directly from the Settings tab.
+- **Dynamic Configuration**: Change theological temperature (0.1 strict exegesis to 1.0 poetic contemplation), companion guidance, and context limits directly from the Settings tab.
 
 ---
 
