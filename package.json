@@ -1,0 +1,20 @@
+{
+  "name": "christportal",
+  "version": "1.0.0",
+  "description": "ChristPortal - A Sacred Sanctuary & Living Word Desktop Portal with Local Ollama AI",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "electron": "^45.0.0"
+  },
+  "dependencies": {
+    "marked": "^18.1.1",
+    "msedge-tts": "^2.1.0"
+  }
+}

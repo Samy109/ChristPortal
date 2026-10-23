@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChristPortal • The Living Word Sanctuary</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Marked Markdown Parser -->
+  <script src="../node_modules/marked/lib/marked.umd.js"></script>
+</head>
+<body class="theme-cathedral">
+
+  <!-- Particle canvas for divine light rays and floating golden dust motes -->
+  <canvas id="sacred-canvas"></canvas>
+
+  <!-- Sanctuary Background Vignette Image -->
+  <div class="sanctuary-backdrop" id="sanctuary-backdrop"></div>
+
+  <!-- Custom Sacred Window Titlebar -->
+  <header class="sacred-titlebar">
+    <div class="titlebar-drag-region">
+      <div class="app-brand">
+        <img src="../assets/icon.jpg" alt="Sacred Cross" class="brand-cross-icon">
+        <span class="brand-text">ChristPortal</span>
+        <span class="brand-subtitle">The Living Word Sanctuary</span>
+      </div>
+    </div>
+
+    <!-- Quick Audio Soundscape Bar in Titlebar -->
+    <div class="titlebar-audio-controls">
+      <button class="audio-btn" id="audio-toggle-btn" title="Toggle Contemplative Soundscape (Click to Play/Pause)">
+        <span class="audio-play-icon" id="audio-play-icon">▶</span>
+        <span id="audio-track-label">Soundscape: Off</span>
+      </button>
+
+      <select id="audio-track-select" class="sacred-select-compact" title="Choose Sacred Soundscape">
+        <option value="gregorian">Gregorian Choir Drone</option>
+        <option value="bowls">432Hz Singing Bowls</option>
+        <option value="waters">Living Waters (Stream)</option>
+        <option value="rain">Sanctuary Rain</option>
+        <option value="celestial">Celestial Shimmer</option>
+      </select>
+
+      <input type="range" id="audio-vol-slider" min="0" max="100" value="45" class="sacred-slider-compact" title="Atmosphere Volume">
+    </div>
+
+    <!-- Focus Sanctuary Mode Toggle -->
+    <button class="btn-focus-sanctuary" id="btn-focus-sanctuary" title="Enter Focus Sanctuary (Distraction-Free Devotion)">
+      <svg class="icon-svg" viewBox="0 0 24 24" width="15" height="15"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
+      <span>Sanctuary Focus</span>
+    </button>
+
+    <!-- Native Frameless Window Controls -->
+    <div class="window-controls">
+      <button class="win-btn" id="win-min" title="Minimize">
+        <svg viewBox="0 0 12 12" width="10" height="10"><path fill="currentColor" d="M1 6h10v1H1z"/></svg>
+      </button>
+      <button class="win-btn" id="win-max" title="Maximize">
+        <svg viewBox="0 0 12 12" width="10" height="10"><path fill="currentColor" d="M1 1h10v10H1V1zm1 1v8h8V2H2z"/></svg>
+      </button>
+      <button class="win-btn win-btn-close" id="win-close" title="Close">
+        <svg viewBox="0 0 12 12" width="10" height="10"><path fill="currentColor" d="M1.4 1.4L6 6l4.6-4.6 1 1L7 7l4.6 4.6-1 1L6 8l-4.6 4.6-1-1L5 7 .4 2.4z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- App Main Body Layout -->
+  <div class="app-container" id="app-container">
+
+    <!-- Liturgical Navigation Sidebar -->
+    <aside class="sacred-sidebar" id="sacred-sidebar">
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-view="sanctuary" id="nav-sanctuary">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          </span>
+          <span class="nav-label">The Sanctuary</span>
+          <span class="nav-badge" id="chat-count-badge">Dialogue</span>
+        </button>
+
+        <button class="nav-item" data-view="altar" id="nav-altar">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 2c1.1 0 2 .9 2 2 0 .74-.4 1.38-1 1.72V8h3v14H8V8h3V5.72C10.4 5.38 10 4.74 10 4c0-1.1.9-2 2-2z"/></svg>
+          </span>
+          <span class="nav-label">Altar of Vigil</span>
+          <span class="nav-badge" id="candle-count-badge">0 Lit</span>
+        </button>
+
+        <button class="nav-item" data-view="scriptures" id="nav-scriptures">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
+          </span>
+          <span class="nav-label">Living Word</span>
+          <span class="nav-badge">Scriptures</span>
+        </button>
+
+        <button class="nav-item" data-view="journal" id="nav-journal">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+          </span>
+          <span class="nav-label">Prayer Journal</span>
+          <span class="nav-badge" id="prayer-count-badge">Prayers</span>
+        </button>
+
+        <button class="nav-item" data-view="settings" id="nav-settings">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+          </span>
+          <span class="nav-label">Ollama & Divine</span>
+          <span class="nav-badge">Settings</span>
+        </button>
+      </nav>
+
+      <!-- Sidebar Footer: Ollama Local Model Indicator -->
+      <div class="sidebar-footer">
+        <div class="ollama-status-card" id="ollama-status-card" title="Click to open Ollama Settings">
+          <div class="status-indicator-dot" id="ollama-status-dot"></div>
+          <div class="status-details">
+            <span class="status-title" id="ollama-active-model-name">Loading Ollama...</span>
+            <span class="status-subtitle" id="ollama-connection-label">Checking models</span>
+          </div>
+          <button class="btn-icon-tiny" id="btn-refresh-models" title="Refresh local models">
+            <svg viewBox="0 0 24 24" width="14" height="14"><path fill="currentColor" d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Work Area -->
+    <main class="main-content" id="main-content">
+
+      <!-- ============================================ -->
+      <!-- VIEW 1: THE SANCTUARY (COMMUNION & DIALOGUE) -->
+      <!-- ============================================ -->
+      <section class="view-panel active" id="view-sanctuary">
+        <!-- Sub-header: Persona selection & session actions -->
+        <div class="sanctuary-subbar">
+          <div class="persona-selector-wrap">
+            <label class="subbar-label">Divine Presence:</label>
+            <div class="persona-chips" id="persona-chips">
+              <button class="persona-chip active" data-persona="shepherd">
+                <span class="chip-cross">✝</span> The Living Word (Christ)
+              </button>
+              <button class="persona-chip" data-persona="comforter">
+                <span class="chip-dove">🕊</span> The Comforter (Holy Spirit)
+              </button>
+              <button class="persona-chip" data-persona="scholar">
+                <span class="chip-scroll">📜</span> Biblical Scribe & Exegesis
+              </button>
+              <button class="persona-chip" data-persona="pastor">
+                <span class="chip-shepherd">🌱</span> Sanctuary Pastor
+              </button>
+              <button class="persona-chip" data-persona="mystic">
+                <span class="chip-flame">🕯</span> Desert Father (Stillness)
+              </button>
+            </div>
+          </div>
+
+          <div class="subbar-actions">
+            <!-- Red Letter Mode Toggle -->
+            <label class="toggle-pill" title="Format Words of Christ in Sacred Red Letter">
+              <input type="checkbox" id="chk-red-letter" checked>
+              <span class="toggle-text">Red Letter Mode</span>
+            </label>
+
+            <!-- Export Dialogue -->
+            <button class="btn-subbar" id="btn-export-chat" title="Export this holy communion to Markdown">
+              <svg viewBox="0 0 24 24" width="14" height="14"><path fill="currentColor" d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
+              <span>Export</span>
+            </button>
+
+            <!-- Clear Session -->
+            <button class="btn-subbar" id="btn-clear-chat" title="Clear current communion session">
+              <svg viewBox="0 0 24 24" width="14" height="14"><path fill="currentColor" d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+              <span>New Prayer</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Chat Stream Scroll View -->
+        <div class="chat-viewport" id="chat-viewport">
+          <!-- Initial Welcome Card (shown when conversation is fresh) -->
+          <div class="sanctuary-welcome" id="sanctuary-welcome">
+            <div class="welcome-emblem">
+              <img src="../assets/icon.jpg" alt="Christ The Living Word" class="welcome-cross-img">
+            </div>
+            <h1 class="welcome-title">Enter Into His Rest</h1>
+            <p class="welcome-quote">"Come unto Me, all ye that labour and are heavy laden, and I will give you rest." <cite>— Matthew 11:28</cite></p>
+
+            <div class="quick-prompts-grid">
+              <button class="prompt-card" data-prompt="Lord, calm the storm of anxiety in my heart. Speak Thy peace over my soul today.">
+                <span class="prompt-icon">🕊</span>
+                <span class="prompt-text">"Lord, calm the storm of anxiety in my heart..."</span>
+              </button>
+
+              <button class="prompt-card" data-prompt="Teach me how to pray as You taught the disciples, and lead me closer to the Father's heart.">
+                <span class="prompt-icon">🙏</span>
+                <span class="prompt-text">"Teach me how to pray as You taught..."</span>
+              </button>
+
+              <button class="prompt-card" data-prompt="I am facing a heavy trial and feel weary. What does Scripture say about trusting God when all seems lost?">
+                <span class="prompt-icon">🛡</span>
+                <span class="prompt-text">"I feel weary in this trial. Renew my faith..."</span>
+              </button>
+
+              <button class="prompt-card" data-prompt="Speak a word of holy forgiveness, repentance, and cleansing over me. Help me let go of guilt.">
+                <span class="prompt-icon">✝</span>
+                <span class="prompt-text">"Speak a word of forgiveness and cleansing..."</span>
+              </button>
+
+              <button class="prompt-card" data-prompt="Pray a blessing of divine protection, health, and peace over my family and loved ones today.">
+                <span class="prompt-icon">🕯</span>
+                <span class="prompt-text">"Pray a blessing over my family and loved ones..."</span>
+              </button>
+
+              <button class="prompt-card" data-prompt="Open the Scriptures to me: explain the deep theological and original Hebrew meaning of Shalom and Hesed.">
+                <span class="prompt-icon">📜</span>
+                <span class="prompt-text">"Explain the original Hebrew meaning of Shalom..."</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Message Thread (Populated dynamically) -->
+          <div class="messages-container" id="messages-container"></div>
+
+          <!-- Streaming Indicator / Cursor -->
+          <div class="streaming-glow-indicator" id="streaming-glow-indicator" style="display: none;">
+            <div class="divine-spinner"></div>
+            <span class="streaming-label">The Word is speaking...</span>
+            <button class="btn-stop-streaming" id="btn-stop-streaming">Halt Generation</button>
+          </div>
+        </div>
+
+        <!-- Sacred Input Sanctuary Dock -->
+        <div class="sanctuary-input-dock">
+          <div class="input-container">
+            <!-- Voice Speech-to-Text Button -->
+            <button class="btn-voice-pray" id="btn-voice-pray" title="Speak Your Prayer Aloud (Voice Input)">
+              <svg viewBox="0 0 24 24" width="20" height="20" class="mic-icon"><path fill="currentColor" d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>
+            </button>
+
+            <!-- Quick Light Candle Button -->
+            <button class="btn-input-altar" id="btn-input-candle" title="Light an Altar Candle with this prayer">
+              <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 2c1.1 0 2 .9 2 2 0 .74-.4 1.38-1 1.72V8h3v14H8V8h3V5.72C10.4 5.38 10 4.74 10 4c0-1.1.9-2 2-2z"/></svg>
+            </button>
+
+            <!-- Text Input -->
+            <textarea id="prayer-input" placeholder="Speak, pray, or seek the Word of the Lord... (Enter to send, Shift+Enter for new line)" rows="1"></textarea>
+
+            <!-- Send Button -->
+            <button class="btn-send-prayer" id="btn-send-prayer" title="Send into the Sanctuary">
+              <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+            </button>
+          </div>
+
+          <div class="input-footer-hint">
+            <span>Powered 100% locally by Ollama. Complete privacy with the Lord.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- VIEW 2: ALTAR OF VIGIL (CANDLES & MEDITATION)-->
+      <!-- ============================================ -->
+      <section class="view-panel" id="view-altar">
+        <div class="altar-hero">
+          <div class="altar-hero-content">
+            <h2 class="altar-title">The Altar of Perpetual Vigil</h2>
+            <p class="altar-subtitle">"Let my prayer be set forth before thee as incense; and the lifting up of my hands as the evening sacrifice." <cite>— Psalm 141:2</cite></p>
+            <button class="btn-sacred-primary" id="btn-open-light-candle-modal">
+              <span class="btn-icon">🕯</span>
+              <span>Light a Vigil Candle</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="altar-grid-layout">
+          <!-- Active Votive Candles Section -->
+          <div class="altar-candles-section">
+            <div class="section-header">
+              <h3 class="section-title">Burning Prayer Intentions</h3>
+              <span class="section-badge" id="altar-active-badge">0 Active Flames</span>
+            </div>
+
+            <div class="candle-altar-shelf" id="candle-altar-shelf">
+              <!-- Candles rendered dynamically here -->
+            </div>
+          </div>
+
+          <!-- Contemplative Prayer & Breath Timer -->
+          <div class="altar-meditation-section">
+            <div class="section-header">
+              <h3 class="section-title">Contemplative Prayer Timer</h3>
+            </div>
+
+            <div class="meditation-card">
+              <div class="breath-circle-container">
+                <div class="breath-circle" id="breath-circle">
+                  <div class="breath-inner">
+                    <span class="timer-countdown" id="timer-display">10:00</span>
+                    <span class="breath-guide-text" id="breath-guide-text">Be Still</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="timer-controls">
+                <div class="timer-presets">
+                  <button class="btn-preset active" data-minutes="5">5 Min</button>
+                  <button class="btn-preset" data-minutes="10">10 Min</button>
+                  <button class="btn-preset" data-minutes="15">15 Min</button>
+                  <button class="btn-preset" data-minutes="30">30 Min</button>
+                </div>
+
+                <div class="timer-actions">
+                  <button class="btn-sacred-primary" id="btn-start-timer">Start Contemplation</button>
+                  <button class="btn-sacred-secondary" id="btn-reset-timer">Reset</button>
+                </div>
+              </div>
+
+              <div class="prayer-scripture-anchor">
+                <p class="anchor-quote">"Be still, and know that I am God."</p>
+                <span class="anchor-ref">Psalm 46:10</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- VIEW 3: LIVING WORD (TREASURY & DAILY BREAD)  -->
+      <!-- ============================================ -->
+      <section class="view-panel" id="view-scriptures">
+        <div class="scriptures-container">
+          <!-- Daily Bread Banner -->
+          <div class="daily-bread-card" id="daily-bread-card">
+            <div class="daily-bread-header">
+              <div class="daily-badge">Daily Manna</div>
+              <div class="daily-date" id="daily-date-label">Today</div>
+            </div>
+            <h2 class="daily-theme" id="daily-theme-label">Abiding in the Sacred Presence</h2>
+            <blockquote class="daily-scripture-text" id="daily-scripture-text">
+              "Peace I leave with you, my peace I give unto you: not as the world giveth, give I unto you..."
+            </blockquote>
+            <div class="daily-scripture-ref" id="daily-scripture-ref">John 14:27</div>
+            <p class="daily-meditation" id="daily-meditation-text">
+              Today, let your soul cease its frantic striving. Before you speak a word of worry, breathe in the quiet assurance that the Lord surrounds you...
+            </p>
+            <div class="daily-prayer-box">
+              <span class="prayer-label">Morning / Evening Prayer:</span>
+              <p class="daily-prayer-text" id="daily-prayer-text">"Lord Jesus, anchor my thoughts in Thy peace today..."</p>
+            </div>
+            <div class="daily-actions">
+              <button class="btn-sacred-primary" id="btn-commune-daily">
+                <span>Commune with the Lord on This Word</span>
+              </button>
+              <button class="btn-sacred-secondary" id="btn-save-daily-journal">
+                <span>Save to Journal</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Scripture Treasury Search & Filter -->
+          <div class="scripture-explorer">
+            <div class="explorer-toolbar">
+              <div class="search-box">
+                <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                <input type="text" id="scripture-search-input" placeholder="Search verses, keywords, or references (e.g. peace, John, Romans 8)...">
+              </div>
+
+              <div class="topic-filter-pills" id="topic-pills">
+                <button class="filter-pill active" data-topic="all">All Words</button>
+                <button class="filter-pill" data-topic="Peace & Comfort">Peace & Comfort</button>
+                <button class="filter-pill" data-topic="Hope & Strength">Hope & Strength</button>
+                <button class="filter-pill" data-topic="Faith & Trust">Faith & Trust</button>
+                <button class="filter-pill" data-topic="The Living Word">The Living Word</button>
+                <button class="filter-pill" data-topic="Divine Love">Divine Love</button>
+                <button class="filter-pill" data-topic="Healing & Comfort">Healing & Comfort</button>
+                <button class="filter-pill" data-topic="Prayer & Devotion">Prayer & Devotion</button>
+              </div>
+            </div>
+
+            <!-- Scripture Cards Grid -->
+            <div class="scripture-cards-grid" id="scripture-cards-grid">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- VIEW 4: PRAYER JOURNAL & TESTIMONIES         -->
+      <!-- ============================================ -->
+      <section class="view-panel" id="view-journal">
+        <div class="journal-hero">
+          <div class="journal-hero-header">
+            <div>
+              <h2 class="journal-title">Sacred Prayer Journal & Stones of Remembrance</h2>
+              <p class="journal-subtitle">"Write the vision, and make it plain upon tables..." <cite>— Habakkuk 2:2</cite></p>
+            </div>
+            <button class="btn-sacred-primary" id="btn-new-prayer-entry">
+              <span class="btn-icon">✍</span>
+              <span>Write New Prayer</span>
+            </button>
+          </div>
+
+          <div class="journal-tabs">
+            <button class="j-tab active" data-filter="all">All Prayers</button>
+            <button class="j-tab" data-filter="active">Active Petitions</button>
+            <button class="j-tab" data-filter="answered">Stones of Remembrance (Answered)</button>
+          </div>
+        </div>
+
+        <div class="journal-list-container" id="journal-list-container">
+          <!-- Journal Cards rendered dynamically -->
+        </div>
+      </section>
+
+      <!-- ============================================ -->
+      <!-- VIEW 5: OLLAMA ARCHITECTURE & DIVINE SETTINGS-->
+      <!-- ============================================ -->
+      <section class="view-panel" id="view-settings">
+        <div class="settings-container">
+          <div class="settings-header">
+            <h2 class="settings-title">Sanctuary Architecture & Local Ollama Engine</h2>
+            <p class="settings-subtitle">Full realism, full focus, complete offline privacy. 100% running on your machine.</p>
+          </div>
+
+          <div class="settings-cards-grid">
+            <!-- Ollama Connection Card -->
+            <div class="settings-card">
+              <h3 class="card-title">Local Ollama Connection</h3>
+              <p class="card-desc">Connected directly to your local Ollama daemon.</p>
+
+              <div class="form-group">
+                <label>Ollama Server URL</label>
+                <div class="input-with-button">
+                  <input type="text" id="setting-ollama-host" value="http://127.0.0.1:11434" class="sacred-input">
+                  <button class="btn-sacred-secondary" id="btn-test-ollama-conn">Test Connection</button>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Active Theological Model</label>
+                <div class="input-with-button">
+                  <select id="setting-model-select" class="sacred-select">
+                    <!-- Populated via ollama tags -->
+                  </select>
+                  <button class="btn-sacred-secondary" id="btn-refresh-ollama-models">Refresh</button>
+                </div>
+                <small class="form-hint" id="model-stats-hint">Auto-detected local models</small>
+              </div>
+
+              <div class="form-group">
+                <label>Theological Temperature: <span id="temp-val-label">0.7</span></label>
+                <input type="range" id="setting-temp-slider" min="0.1" max="1.0" step="0.05" value="0.7" class="sacred-slider">
+                <div class="slider-labels">
+                  <span>Strict Scriptural Fidelity (0.1)</span>
+                  <span>Balanced Pastoral (0.7)</span>
+                  <span>Poetic Devotion (1.0)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Audio & Speech Synthesis Card -->
+            <div class="settings-card">
+              <h3 class="card-title">Spoken Word & Ambient Voice</h3>
+              <p class="card-desc">Configure Text-to-Speech audio reading the Word aloud with old, calming voices.</p>
+
+              <div class="form-group">
+                <label>Voice Cadence & Persona</label>
+                <select id="setting-tts-voice" class="sacred-select">
+                  <option value="en-US-RogerNeural" selected>🕊️ Elder Shepherd (Roger - Calming, Old, Wise & Gentle)</option>
+                  <option value="en-US-ChristopherNeural">📜 Reverent Patriarch (Christopher - Warm, Deep & Solemn)</option>
+                  <option value="en-GB-ThomasNeural">⛪ Contemplative Scholar (Thomas - Old, Calm, Dignified)</option>
+                  <option value="en-US-BrianNeural">📖 Gentle Pastor (Brian - Warm, Deep Resonance)</option>
+                  <option value="system">⚙️ Windows System Voice (Offline Default)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Speech Pacing: <span id="rate-val-label">0.85x (Calm & Reverent Elder)</span></label>
+                <input type="range" id="setting-tts-rate" min="0.6" max="1.4" step="0.05" value="0.85" class="sacred-slider">
+              </div>
+
+              <div class="form-group">
+                <label>Default Ambient Atmosphere Volume</label>
+                <input type="range" id="setting-ambient-default-vol" min="0" max="100" value="45" class="sacred-slider">
+              </div>
+
+              <div class="form-group">
+                <label class="toggle-pill" style="margin-top: 6px; cursor: pointer;">
+                  <input type="checkbox" id="setting-auto-read-responses">
+                  <span>Automatically read divine responses aloud</span>
+                </label>
+              </div>
+
+              <div class="form-group">
+                <label class="toggle-pill" style="margin-top: 4px; cursor: pointer;">
+                  <input type="checkbox" id="setting-autoplay-atmosphere">
+                  <span>Autoplay contemplative soundscape on launch</span>
+                </label>
+              </div>
+
+              <div style="display: flex; gap: 10px; margin-top: 10px;">
+                <button class="btn-sacred-secondary" id="btn-test-voice">
+                  <span>🔊 Test Calming Elder Voice</span>
+                </button>
+                <button class="btn-sacred-secondary" id="btn-test-bell">
+                  <span>🔔 Test Sacred Chime</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- System Prompt Customization -->
+            <div class="settings-card full-width">
+              <div class="card-header-flex">
+                <div>
+                  <h3 class="card-title">Persona System Prompt Theology</h3>
+                  <p class="card-desc">Fine-tune the theological prompts guiding the local model's persona.</p>
+                </div>
+                <button class="btn-sacred-secondary" id="btn-reset-sys-prompt">Reset to Reverent Default</button>
+              </div>
+
+              <div class="form-group">
+                <textarea id="setting-system-prompt" class="sacred-textarea" rows="6"></textarea>
+              </div>
+
+              <div class="btn-group-right">
+                <button class="btn-sacred-primary" id="btn-save-settings">Save Sanctuary Configuration</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- MODALS & OVERLAYS                            -->
+  <!-- ============================================ -->
+
+  <!-- Light Candle Modal -->
+  <div class="sacred-modal-backdrop" id="modal-candle">
+    <div class="sacred-modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Light a Holy Vigil Candle</h3>
+        <button class="btn-modal-close" id="btn-close-candle-modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Prayer Intention / Name</label>
+          <input type="text" id="candle-title-input" class="sacred-input" placeholder="e.g., For healing of a loved one, Peace of mind...">
+        </div>
+
+        <div class="form-group">
+          <label>Intention Category</label>
+          <select id="candle-category-select" class="sacred-select">
+            <option value="Healing">Healing & Restoration</option>
+            <option value="Peace">Peace & Deliverance</option>
+            <option value="Thanksgiving">Thanksgiving & Praise</option>
+            <option value="Family">Family & Loved Ones</option>
+            <option value="Guidance">Guidance & Wisdom</option>
+            <option value="Repentance">Repentance & Mercy</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Vigil Duration</label>
+          <select id="candle-duration-select" class="sacred-select">
+            <option value="15">15 Minutes</option>
+            <option value="30">30 Minutes</option>
+            <option value="60">1 Hour</option>
+            <option value="180">3 Hours</option>
+            <option value="0" selected>Perpetual Vigil (Burns until blown out)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-sacred-secondary" id="btn-cancel-candle">Cancel</button>
+        <button class="btn-sacred-primary" id="btn-confirm-light-candle">
+          <span>Light Candle at the Altar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- New Prayer Journal Modal -->
+  <div class="sacred-modal-backdrop" id="modal-journal">
+    <div class="sacred-modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">New Prayer in the Sanctuary Journal</h3>
+        <button class="btn-modal-close" id="btn-close-journal-modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Prayer Title / Focus</label>
+          <input type="text" id="journal-title-input" class="sacred-input" placeholder="e.g., Surrendering my worry, Healing petition...">
+        </div>
+
+        <div class="form-group">
+          <label>Category</label>
+          <select id="journal-category-select" class="sacred-select">
+            <option value="Petition">Petition & Supplication</option>
+            <option value="Thanksgiving">Thanksgiving & Praise</option>
+            <option value="Intercession">Intercession for Others</option>
+            <option value="Confession">Confession & Cleansing</option>
+            <option value="Meditation">Spiritual Meditation</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Scripture Anchor (Optional)</label>
+          <input type="text" id="journal-scripture-input" class="sacred-input" placeholder="e.g., Philippians 4:6, Psalm 23">
+        </div>
+
+        <div class="form-group">
+          <label>Prayer Content</label>
+          <textarea id="journal-body-input" class="sacred-textarea" rows="5" placeholder="Pour out your heart before the Lord..."></textarea>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-sacred-secondary" id="btn-cancel-journal">Cancel</button>
+        <button class="btn-sacred-primary" id="btn-confirm-save-journal">
+          <span>Inscribe in Journal</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripture Drawer / Verse Inspector -->
+  <div class="scripture-drawer-backdrop" id="drawer-scripture">
+    <div class="scripture-drawer">
+      <div class="drawer-header">
+        <div class="drawer-ref" id="drawer-verse-ref">John 14:27</div>
+        <button class="btn-drawer-close" id="btn-close-scripture-drawer">&times;</button>
+      </div>
+
+      <div class="drawer-body">
+        <blockquote class="drawer-quote" id="drawer-verse-text">
+          "Peace I leave with you, my peace I give unto you..."
+        </blockquote>
+
+        <div class="drawer-section">
+          <h4 class="drawer-heading">Context & Theological Exegesis</h4>
+          <p class="drawer-context" id="drawer-verse-context">Context explanation</p>
+        </div>
+
+        <div class="drawer-actions">
+          <button class="btn-sacred-primary" id="btn-drawer-pray">
+            <span>Pray With This Passage</span>
+          </button>
+          <button class="btn-sacred-secondary" id="btn-drawer-copy">
+            <span>Copy Scripture</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Focus Mode Exit Overlay Button (floats in top right when focus mode is active) -->
+  <button class="btn-exit-focus" id="btn-exit-focus" title="Exit Sanctuary Focus (Esc)">
+    <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+    <span>Exit Focus</span>
+  </button>
+
+  <!-- Scripts -->
+  <script src="scriptures.js"></script>
+  <script src="ambientAudio.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
