@@ -1514,6 +1514,7 @@ class ChristPortalApp {
 
   openScriptureDrawer(ref) {
     const scripture = findScriptureByRef ? findScriptureByRef(ref) : null;
+    const kjv = typeof lookupKJV === 'function' ? lookupKJV(ref) : null;
     const drawer = document.getElementById('drawer-scripture');
     const refEl = document.getElementById('drawer-verse-ref');
     const textEl = document.getElementById('drawer-verse-text');
@@ -1521,14 +1522,23 @@ class ChristPortalApp {
 
     if (!drawer) return;
 
-    if (scripture) {
+    // The bundled KJV is the source of truth for the verse text; curated entries add context
+    if (kjv) {
+      refEl.textContent = `${kjv.ref} (KJV)`;
+      textEl.textContent = kjv.verses.length === 1
+        ? `"${kjv.verses[0].text}"`
+        : kjv.verses.map(v => `${v.verse} ${v.text}`).join(' ');
+      contextEl.textContent = scripture && scripture.ref === kjv.ref
+        ? scripture.context
+        : 'Read it in its setting: what comes before and after, and how the rest of Scripture speaks to it. Switch the focus to Study the Word in The Sanctuary to explore this passage.';
+    } else if (scripture) {
       refEl.textContent = scripture.ref;
       textEl.textContent = `"${scripture.text}"`;
       contextEl.textContent = scripture.context;
     } else {
       refEl.textContent = ref;
-      textEl.textContent = `Scripture passage reference: ${ref}`;
-      contextEl.textContent = 'Consult the Holy Scriptures or ask the Biblical Scribe in The Sanctuary for full Hebrew/Greek commentary.';
+      textEl.textContent = `This reference could not be found in Scripture. Please check the book, chapter, and verse.`;
+      contextEl.textContent = 'Switch the focus to Study the Word in The Sanctuary to explore this passage.';
     }
 
     drawer.classList.add('active');

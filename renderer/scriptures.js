@@ -313,7 +313,41 @@ const SCRIPTURE_DATABASE = [
 ];
 
 // Helper: Scripture reference regex detector (e.g., "John 3:16", "Psalm 23:1-4", "1 Cor 13:4")
-const SCRIPTURE_REGEX = /\b(?:(?:1|2|3)\s+)?(?:Genesis|Exodus|Leviticus|Numbers|Deuteronomy|Joshua|Judges|Ruth|(?:1|2)\s+Samuel|(?:1|2)\s+Kings|(?:1|2)\s+Chronicles|Ezra|Nehemiah|Esther|Job|Psalms?|Proverbs|Ecclesiastes|Song of Solomon|Song of Songs|Isaiah|Jeremiah|Lamentations|Ezekiel|Daniel|Hosea|Joel|Amos|Obadiah|Jonah|Micah|Nahum|Habakkuk|Zephaniah|Haggai|Zechariah|Malachi|Matthew|Mark|Luke|John|Acts|Romans|(?:1|2)\s+Corinthians?|(?:1|2)\s+Cor|Galatians|Ephesians|Philippians|Colossians|(?:1|2)\s+Thessalonians|(?:1|2)\s+Timothy|(?:1|2)\s+Tim|Titus|Philemon|Hebrews|James|(?:1|2)\s+Peter|(?:1|2|3)\s+John|Jude|Revelation)\s+\d+(?::\d+(?:-\d+)?)?/gi;
+const SCRIPTURE_REGEX = /\b(?:(?:1|2|3)\s+)?(?:Genesis|Exodus|Leviticus|Numbers|Deuteronomy|Joshua|Judges|Ruth|(?:1|2)\s+Samuel|(?:1|2)\s+Kings|(?:1|2)\s+Chronicles|Ezra|Nehemiah|Esther|Job|Psalms?|Proverbs|Ecclesiastes|Song of Solomon|Song of Songs|Isaiah|Jeremiah|Lamentations|Ezekiel|Daniel|Hosea|Joel|Amos|Obadiah|Jonah|Micah|Nahum|Habakkuk|Zephaniah|Haggai|Zechariah|Malachi|Matthew|Mark|Luke|John|Acts|Romans|(?:1|2)\s+Corinthians?|(?:1|2)\s+Cor|Galatians|Ephesians|Philippians|Colossians|(?:1|2)\s+Thessalonians|(?:1|2)\s+Timothy|(?:1|2)\s+Tim|Titus|Philemon|Hebrews|James|(?:1|2)\s+Peter|(?:1|2|3)\s+John|Jude|Revelation)\s+\d+(?::\d+(?:[-‐‑–—]\d+)?)?/gi;
+
+// Short or alternate book names, mapped to the names used in the bundled KJV
+const KJV_BOOK_ALIASES = { 'psalm': 'psalms', 'song of songs': 'song of solomon', 'cor': 'corinthians', 'corinthian': 'corinthians', 'tim': 'timothy' };
+
+// Looks up any reference ("John 14:27", "Psalm 139:13-16", "Psalm 23") in the bundled KJV
+function lookupKJV(ref) {
+  if (typeof KJV_BOOKS === 'undefined') return null;
+  const m = ref.trim().match(/^((?:[123]\s+)?[A-Za-z]+(?:\s+of\s+[A-Za-z]+)?)\s+(\d+)(?::(\d+)(?:\s*[-‐‑–—]\s*(\d+))?)?$/);
+  if (!m) return null;
+
+  const [prefixNum, ...nameParts] = /^[123]\s/.test(m[1]) ? m[1].split(/\s+/) : [null, ...m[1].split(/\s+/)];
+  let name = nameParts.join(' ').toLowerCase();
+  name = KJV_BOOK_ALIASES[name] || name;
+  const fullName = prefixNum ? `${prefixNum} ${name}` : name;
+  const book = KJV_BOOKS.find(b => b.name.toLowerCase() === fullName);
+  if (!book) return null;
+
+  const chapterNum = parseInt(m[2], 10);
+  const chapter = book.chapters[chapterNum - 1];
+  if (!chapter) return null;
+
+  const first = m[3] ? parseInt(m[3], 10) : 1;
+  const last = m[3] ? Math.min(m[4] ? parseInt(m[4], 10) : first, chapter.length) : chapter.length;
+  if (first < 1 || first > chapter.length || last < first) return null;
+
+  const verses = [];
+  for (let v = first; v <= last; v++) verses.push({ verse: v, text: chapter[v - 1] });
+
+  const bookName = book.name;
+  const canonicalRef = m[3]
+    ? `${bookName} ${chapterNum}:${first}${last > first ? '-' + last : ''}`
+    : `${bookName} ${chapterNum}`;
+  return { ref: canonicalRef, verses };
+}
 
 function findScriptureByRef(ref) {
   const clean = ref.trim().toLowerCase().replace(/\s+/g, ' ');
@@ -363,6 +397,7 @@ if (typeof module !== 'undefined') {
   module.exports = {
     SCRIPTURE_DATABASE,
     SCRIPTURE_REGEX,
+    lookupKJV,
     findScriptureByRef,
     getDailyDevotional
   };
